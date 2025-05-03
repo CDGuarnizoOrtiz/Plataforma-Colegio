@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<main class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <form action="/create/" method="post" class="card border-0 shadow">
+                <div class="card-body p-4">
+                    <h1 class="mb-4 text-center text-dark">Crear estudiante</h1>
+                    {{ error }}
+                    {% csrf_token %}
+
+                    <div class="mb-3">
+                        <label for="{{ form.nombre.id_for_label }}" class="form-label text-secondary">Nombre</label>
+                        {{ form.nombre }}
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="{{ form.apellido.id_for_label }}" class="form-label text-secondary">Apellido</label>
+                        {{ form.apellido }}
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="{{ form.email.id_for_label }}" class="form-label text-secondary">Email</label>
+                        {{ form.email }}
+                    </div>
+
+                    <button class="btn btn-primary w-100 mt-3">Guardar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</main>
+{% endblock %}
+
