@@ -2,33 +2,38 @@
 
 {% block content %}
 <main class="container mt-4">
-    <h1 class="mb-4">Visualización de notas</h1>
-  
-    {% regroup notas by estudiante as notas_por_estudiante %}
-  
+  <h1 class="mb-4 text-center">Visualización de notas</h1>
+
+  {% regroup notas by estudiante as notas_por_estudiante %}
+
+  <div class="row">
     {% for grupo in notas_por_estudiante %}
-      <h4 class="mt-5">{{ grupo.grouper }}</h4>
-      <table class="table table-dark">
-        <thead>
-          <tr class="table-active">
-            <th>Materia</th>
-            <th>Calificación</th>
-          </tr>
-        </thead>
-        <tbody>
-          {% for nota in grupo.list %}
-          <tr>
-            <td>{{ nota.materia }}</td>
-            <td>{{ nota.calificacion }}</td>
-          </tr>
-          {% endfor %}
-        </tbody>
-      </table>
+      <div class="col-md-4 mb-4">
+        <div class="card bg-dark text-white h-100">
+          <div class="card-body">
+            <h4 class="card-title">{{ grupo.grouper }}</h4>
+            <table class="table table-dark table-sm mt-3">
+              <thead>
+                <tr class="table-active">
+                  <th>Materia</th>
+                  <th>Calificación</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for nota in grupo.list %}
+                <tr>
+                  <td>{{ nota.materia }}</td>
+                  <td>{{ nota.calificacion }}</td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
     {% empty %}
       <p>No hay notas registradas aún.</p>
     {% endfor %}
-  </main>
-  
-
-
+  </div>
+</main>
 {% endblock %}
