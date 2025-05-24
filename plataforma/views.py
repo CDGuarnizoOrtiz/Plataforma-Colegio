@@ -87,6 +87,21 @@ def vernotas(request):
     notas = nota.objects.select_related('estudiante').all()
     return render(request, 'notas.html', {'notas': notas})
 
+def signin(request):
+    if request.method == 'GET':
+        return render(request, 'signin.html', {
+            'form': AuthenticationForm
+        })
+    else:
+        user = authenticate(request, username=request.POST['username'], password=request.POST['password'])
+        if user is None:
+            return render(request, 'signin.html', {
+                'form': AuthenticationForm,
+                'error': 'username o password is incorrect'
+            })
+        else:
+            login(request, user)
+            return redirect('notas')
 
 
 
