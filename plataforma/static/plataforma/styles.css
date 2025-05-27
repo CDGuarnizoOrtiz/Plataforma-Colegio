@@ -1,0 +1,36 @@
+/* Estilos generales para centrar los botones */
+body, html {
+  height: 100%;
+  margin: 0;
+}
+.title {
+    margin-right: 1%;
+}
+body {
+  display: flex;
+  justify-content: center; /* Centra horizontalmente */
+  align-items: center;     /* Centra verticalmente */
+  background-color: #f0f0f0;
+  font-family: Arial, sans-serif;
+}
+
+.button-container {
+  display: flex;
+  gap: 20px; /* Espacio entre botones */
+}
+
+.btn {
+  padding: 12px 25px;
+  margin-right: 1%;
+  background-color: #58799c;
+  color: white;
+  text-decoration: none;
+  border-radius: 5px;
+  font-weight: bold;
+  font-size: 16px;
+  transition: background-color 0.3s ease;
+}
+
+.btn:hover {
+  background-color: #323d4a;
+}
