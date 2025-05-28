@@ -20,12 +20,7 @@ def signup(request):
     if request.method == 'POST':
         form = CustomUserCreationForm(request.POST)
         if form.is_valid():
-            user = form.save()
-            role = form.cleaned_data.get('role')
-
-            # Guarda el rol en un modelo Profile
-            Profile.objects.create(user=user, role=role)
-
+            user = form.save()  
             login(request, user)
             messages.success(request, "Usuario registrado correctamente.")
             return redirect('signin')
@@ -35,6 +30,7 @@ def signup(request):
         form = CustomUserCreationForm()
 
     return render(request, 'signup.html', {'form': form})
+
 
 
 def signin(request):
