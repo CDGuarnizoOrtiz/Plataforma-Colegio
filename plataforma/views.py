@@ -10,8 +10,8 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 
 # Create your views here.
-def dashboard(request):
-    return render(request, 'dashboard.html')
+def index(request):
+    return render(request, 'index.html')
 
 
 def signup(request):
