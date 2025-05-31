@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
+from django.contrib.auth.forms import AuthenticationForm
+from .forms import CustomUserCreationForm
 from django.contrib.auth.models import User
 from django.contrib.auth import login, logout, authenticate
 from django.db import IntegrityError
@@ -8,6 +9,7 @@ from .models import estudiante,nota
 from django.utils import timezone
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
+from .models import Profile
 
 # Create your views here.
 def dashboard(request):
@@ -16,29 +18,19 @@ def dashboard(request):
 
 def signup(request):
     if request.method == 'POST':
-        form = UserCreationForm(request.POST)
-        
-        # Verificar si las contraseñas coinciden
-        password1 = request.POST.get('password1')
-        password2 = request.POST.get('password2')
-        
-        if password1 != password2:
-            messages.error(request, "Las contraseñas no coinciden.")
-            return redirect('signup')
-        
+        form = CustomUserCreationForm(request.POST)
         if form.is_valid():
-            # Guardar el usuario si las contraseñas coinciden
-            user = form.save()
+            user = form.save()  
             login(request, user)
-            messages.success(request, "Usuario agregado exitosamente.")
+            messages.success(request, "Usuario registrado correctamente.")
             return redirect('signin')
         else:
-            print("Errores del formulario:", form.errors)  # Muestra los errores
             messages.error(request, "Hubo un error al crear la cuenta.")
     else:
-        form = UserCreationForm()
-    
+        form = CustomUserCreationForm()
+
     return render(request, 'signup.html', {'form': form})
+
 
 
 def signin(request):

@@ -1,5 +1,9 @@
 from django import forms
 from .models import estudiante, nota
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.models import User
+from .models import Profile 
+
 
 class estudianteform(forms.ModelForm):
     class Meta: 
@@ -20,3 +24,21 @@ class notaform(forms.ModelForm):
             'materia': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Escribe la materia'}),
             'calificacion': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'Escribe la calificación'}),
         }
+        
+class CustomUserCreationForm(UserCreationForm):
+    ROLE_CHOICES = (
+        ('admin','Administrador'),
+        ('student','Estudiante'),
+    )
+    role = forms.ChoiceField(choices=ROLE_CHOICES, label='Rol')
+    
+    class Meta:
+        model = User
+        fields = ['username','password1', 'password2', 'role']
+
+    def save(self, commit=True):
+        user = super().save(commit)  # Guarda el usuario
+        role = self.cleaned_data['role']  # Obtiene el rol seleccionado en el formulario
+        Profile.objects.create(user=user, role=role)  # Crea el perfil vinculado
+        return user 
+        
