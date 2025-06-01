@@ -12,8 +12,8 @@ from django.contrib import messages
 from .models import Profile
 
 # Create your views here.
-def dashboard(request):
-    return render(request, 'dashboard.html')
+def index(request):
+    return render(request, 'index.html')
 
 
 def signup(request):

@@ -4,7 +4,7 @@
 <main class="container mt-5">
     <div class="row justify-content-center">
         <div class="col-md-6">
-            <form action="/create/" method="post" class="card border-0 shadow">
+            <form action="{% url 'create' %}" method="post" class="card border-0 shadow">
                 <div class="card-body p-4">
                     <h1 class="mb-4 text-center text-dark">Crear estudiante</h1>
                     {{ error }}
