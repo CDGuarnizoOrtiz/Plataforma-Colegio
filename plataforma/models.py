@@ -16,7 +16,7 @@ class nota(models.Model):
     calificacion = models.FloatField()
     
     def __str__(self):
-     return f"{self.materia} {self.calificacions}"
+     return f"{self.materia} {self.calificacion}"
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)

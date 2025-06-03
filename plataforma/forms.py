@@ -42,3 +42,5 @@ class CustomUserCreationForm(UserCreationForm):
         Profile.objects.create(user=user, role=role)  # Crea el perfil vinculado
         return user 
         
+class BuscarEstudianteForm(forms.Form):
+    nombre = forms.CharField(label="buscar estudiante", max_length=100, required= False)
