@@ -4,7 +4,7 @@ from .forms import CustomUserCreationForm
 from django.contrib.auth.models import User
 from django.contrib.auth import login, logout, authenticate
 from django.db import IntegrityError
-from .forms import estudianteform, notaform
+from .forms import estudianteform, notaform,BuscarEstudianteForm
 from .models import estudiante,nota
 from django.utils import timezone
 from django.contrib.auth.decorators import login_required
@@ -95,6 +95,24 @@ def signin(request):
             login(request, user)
             return redirect('notas')
 
+def vista_estudiantes(request):
+    form = BuscarEstudianteForm(request.GET or None)
+    estudiantes = estudiante.objects.all()  
 
+    if form.is_valid():
+        nombre = form.cleaned_data.get('nombre')
+        if nombre:
+            estudiantes = estudiantes.filter(nombre__icontains=nombre)
 
-    
+    estudiantes_data = []
+    for est in estudiantes:
+        notas = nota.objects.filter(estudiante=est)
+        estudiantes_data.append({
+            'estudiante': est,
+            'notas': notas
+        })
+
+    return render(request, 'buscarestudiante.html', {
+        'form': form,
+        'estudiantes_data': estudiantes_data
+    })
