@@ -12,6 +12,7 @@ urlpatterns = [
     path('notas/', views.vernotas, name = 'notas'),
     path('signup/', views.signup, name='signup'),
     path('signin/', views.signin, name='signin'),
+    path('nota_edit/<int:nota_id>/', views.nota_edit, name='nota_edit'),
     
     
 ]

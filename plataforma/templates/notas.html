@@ -11,12 +11,17 @@
       <div class="col-md-4 mb-4">
         <div class="card bg-dark text-white h-100">
           <div class="card-body">
-            <h4 class="card-title">{{ grupo.grouper }}</h4>
+            <!-- Nombre del estudiante SIN link -->
+            <h4 class="card-title">
+              {{ grupo.grouper }}
+            </h4>
+
             <table class="table table-dark table-sm mt-3">
               <thead>
                 <tr class="table-active">
                   <th>Materia</th>
                   <th>Calificación</th>
+                  <th>Acciones</th>
                 </tr>
               </thead>
               <tbody>
@@ -24,6 +29,10 @@
                 <tr>
                   <td>{{ nota.materia }}</td>
                   <td>{{ nota.calificacion }}</td>
+                  <td>
+                    <!-- Botón Editar, pasando el nota.id -->
+                    <a href="{% url 'nota_edit' nota.id %}" class="btn btn-sm btn-primary">Editar</a>
+                  </td>
                 </tr>
                 {% endfor %}
               </tbody>
@@ -37,3 +46,4 @@
   </div>
 </main>
 {% endblock %}
+
