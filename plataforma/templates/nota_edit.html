@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<main class="container mt-4">
+  <h1 class="mb-4 text-center">Editar nota de {{ newnota.estudiante }} en {{ newnota.materia }}</h1>
+
+  {% if error %}
+    <div class="alert alert-danger">
+      {{ error }}
+    </div>
+  {% endif %}
+
+  <form method="POST">
+    {% csrf_token %}
+    {{ form.as_p }}
+
+    <button type="submit" class="btn btn-success">Guardar cambios</button>
+    <a href="{% url 'notas' %}" class="btn btn-secondary">Cancelar</a>
+  </form>
+</main>
+{% endblock %}

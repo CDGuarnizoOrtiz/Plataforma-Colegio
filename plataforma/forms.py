@@ -24,6 +24,16 @@ class notaform(forms.ModelForm):
             'materia': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Escribe la materia'}),
             'calificacion': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'Escribe la calificación'}),
         }
+
+class notaeditform(forms.ModelForm):
+    class Meta: 
+        model = nota
+        fields = ['materia', 'calificacion'] 
+        widgets = {
+            'materia': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Escribe la materia'}),
+            'calificacion': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'Escribe la calificación'}),
+        }
+
         
 class CustomUserCreationForm(UserCreationForm):
     ROLE_CHOICES = (
