@@ -4,7 +4,7 @@ from .forms import CustomUserCreationForm
 from django.contrib.auth.models import User
 from django.contrib.auth import login, logout, authenticate
 from django.db import IntegrityError
-from .forms import estudianteform, notaform,BuscarEstudianteForm
+from .forms import EstudianteForm, NotaForm,BuscarEstudianteForm, NotaeditForm
 from .models import estudiante,nota
 from django.utils import timezone
 from django.contrib.auth.decorators import login_required
@@ -40,44 +40,67 @@ def signin(request):
 def create_estudiante(request):
     if request.method == 'GET':
         return render(request, 'crearestudiantes.html',{
-            'form': estudianteform,
+            'form': EstudianteForm,
             #'form': notaform,  
         })
     else:
         try:
-            form = estudianteform(request.POST)
+            form = EstudianteForm(request.POST)
             #form2 = notaform(request.POST)
             new_student = form.save(commit=False)
             new_student.save()
             return redirect('create')
         except ValueError:
             return render(request, 'crearestudiantes.html', {
-                'form': estudianteform,
+                'form': EstudianteForm,
                 'error': 'please provide valide data'
         })
 
 def agregar_nota(request):
     if request.method == 'GET':
         return render(request, 'agregarestudiante.html',{
-            'form': notaform,
+            'form': NotaForm,
             #'form': notaform,  
         })
     else:
         try:
-            form = notaform(request.POST)
+            form = NotaForm(request.POST)
             #form2 = notaform(request.POST)
             new_nota = form.save(commit=False)
             new_nota.save()
             return redirect('aggnota')
         except ValueError:
             return render(request, 'agregarestudiante.html', {
-                'form': notaform,
+                'form': NotaForm,
                 'error': 'please provide valide data'
         })    
 
 def vernotas(request):
     notas = nota.objects.select_related('estudiante').all()
     return render(request, 'notas.html', {'notas': notas})
+
+
+def nota_edit(request, nota_id):
+    newnota = get_object_or_404(nota, pk=nota_id)
+
+    if request.method == 'GET':
+        form = NotaeditForm(instance=newnota)
+        return render(request, 'nota_edit.html', {
+            'newnota': newnota,
+            'form': form,
+        })
+    else:
+        form = NotaeditForm(request.POST, instance=newnota)
+        if form.is_valid():
+            form.save()
+            return redirect('notas')
+        else:
+            return render(request, 'nota_edit.html', {
+                'newnota': newnota,
+                'form': form,
+                'error': "Error updating nota"
+            })
+
 
 def signin(request):
     if request.method == 'GET':
