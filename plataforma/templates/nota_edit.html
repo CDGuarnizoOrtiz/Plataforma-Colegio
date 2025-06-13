@@ -16,6 +16,16 @@
 
     <button type="submit" class="btn btn-success">Guardar cambios</button>
     <a href="{% url 'notas' %}" class="btn btn-secondary">Cancelar</a>
+    
+
   </form>
+  {% if newnota.id %}
+  <form action="{% url 'delete_note' newnota.id %}" method="post" style="display:inline; margin-top: 10px;">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-danger btn-sm">Eliminar</button>
+  </form>
+  {% endif %}
+
+
 </main>
 {% endblock %}

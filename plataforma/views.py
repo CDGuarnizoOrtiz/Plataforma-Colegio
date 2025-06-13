@@ -5,7 +5,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth import login, logout, authenticate
 from django.db import IntegrityError
 from .forms import EstudianteForm, NotaForm,BuscarEstudianteForm, NotaeditForm
-from .models import estudiante,nota
+from .models import Estudiante,Nota
 from django.utils import timezone
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
@@ -76,12 +76,12 @@ def agregar_nota(request):
         })    
 
 def vernotas(request):
-    notas = nota.objects.select_related('estudiante').all()
+    notas = Nota.objects.select_related('estudiante').all()
     return render(request, 'notas.html', {'notas': notas})
 
 
 def nota_edit(request, nota_id):
-    newnota = get_object_or_404(nota, pk=nota_id)
+    newnota = get_object_or_404(Nota, pk=nota_id)
 
     if request.method == 'GET':
         form = NotaeditForm(instance=newnota)
@@ -100,6 +100,15 @@ def nota_edit(request, nota_id):
                 'form': form,
                 'error': "Error updating nota"
             })
+            
+def delete_note(request, nota_id):
+    delete = get_object_or_404(Nota, pk=nota_id)
+    if request.method == 'POST':
+        print('Eliminando nota:', delete.id)  # debug
+        delete.delete()
+        return redirect('notas')
+    else:
+        print('Método no permitido:', request.method)
 
 
 def signin(request):
@@ -120,7 +129,7 @@ def signin(request):
 
 def vista_estudiantes(request):
     form = BuscarEstudianteForm(request.GET or None)
-    estudiantes = estudiante.objects.all()  
+    estudiantes = Estudiante.objects.all()  
 
     if form.is_valid():
         nombre = form.cleaned_data.get('nombre')
@@ -129,7 +138,7 @@ def vista_estudiantes(request):
 
     estudiantes_data = []
     for est in estudiantes:
-        notas = nota.objects.filter(estudiante=est)
+        notas = Nota.objects.filter(estudiante=est)
         estudiantes_data.append({
             'estudiante': est,
             'notas': notas

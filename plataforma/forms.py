@@ -1,5 +1,5 @@
 from django import forms
-from .models import estudiante, nota
+from .models import Estudiante, Nota
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from .models import Profile 
@@ -7,7 +7,7 @@ from .models import Profile
 
 class EstudianteForm(forms.ModelForm):
     class Meta: 
-        model = estudiante
+        model = Estudiante
         fields = ['nombre','apellido', 'email']
         widgets = {
             'nombre': forms.TextInput(attrs={'class': 'form-control', 'placeholder':'write a title'}),
@@ -17,7 +17,7 @@ class EstudianteForm(forms.ModelForm):
         
 class NotaForm(forms.ModelForm):
     class Meta: 
-        model = nota
+        model = Nota
         fields = ['estudiante', 'materia', 'calificacion']
         widgets = {
             'estudiante': forms.Select(attrs={'class': 'form-control'}),
@@ -27,7 +27,7 @@ class NotaForm(forms.ModelForm):
 
 class NotaeditForm(forms.ModelForm):
     class Meta: 
-        model = nota
+        model = Nota
         fields = ['materia', 'calificacion'] 
         widgets = {
             'materia': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Escribe la materia'}),
