@@ -1,31 +1,39 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<main class="container mt-4">
-  <h1 class="mb-4 text-center">Editar nota de {{ newnota.estudiante }} en {{ newnota.materia }}</h1>
+<main class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <form method="POST" action="{% url 'nota_edit' newnota.id %}" class="card border-0 shadow">
+        <div class="card-body p-4">
+          <h1 class="mb-4 text-center text-dark">
+            Editar nota de {{ newnota.estudiante }} en {{ newnota.materia }}
+          </h1>
 
-  {% if error %}
-    <div class="alert alert-danger">
-      {{ error }}
+          {% if error %}
+            <div class="alert alert-danger" role="alert">
+              {{ error }}
+            </div>
+          {% endif %}
+
+          {% csrf_token %}
+          {{ form }}
+
+          <div class="d-grid gap-2 mt-3">
+            <button type="submit" class="btn btn-dark">Guardar cambios</button>
+            <a href="{% url 'notas' %}" class="btn btn-secondary">Cancelar</a>
+          </div>
+
+          {% if newnota.id %}
+          <hr>
+          <form action="{% url 'delete_note' newnota.id %}" method="post" onsubmit="return confirm('¿Estás seguro de que deseas eliminar esta nota?');">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-danger w-100 mt-2">Eliminar</button>
+          </form>
+          {% endif %}
+        </div>
+      </form>
     </div>
-  {% endif %}
-
-  <form method="POST">
-    {% csrf_token %}
-    {{ form.as_p }}
-
-    <button type="submit" class="btn btn-success">Guardar cambios</button>
-    <a href="{% url 'notas' %}" class="btn btn-secondary">Cancelar</a>
-    
-
-  </form>
-  {% if newnota.id %}
-  <form action="{% url 'delete_note' newnota.id %}" method="post" style="display:inline; margin-top: 10px;">
-    {% csrf_token %}
-    <button type="submit" class="btn btn-danger btn-sm">Eliminar</button>
-  </form>
-  {% endif %}
-
-
+  </div>
 </main>
 {% endblock %}
