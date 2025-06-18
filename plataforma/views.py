@@ -10,6 +10,8 @@ from django.utils import timezone
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from .models import Profile
+from .decorators import solo_admin
+
 
 # Create your views here.
 def index(request):
@@ -37,6 +39,7 @@ def signin(request):
     return render(request,'signin.html')
 
 @login_required
+@solo_admin
 def create_estudiante(request):
     if request.method == 'GET':
         return render(request, 'crearestudiantes.html',{
@@ -57,6 +60,7 @@ def create_estudiante(request):
         })
 
 @login_required
+@solo_admin
 def agregar_nota(request):
     if request.method == 'GET':
         return render(request, 'agregarestudiante.html',{
@@ -82,6 +86,7 @@ def vernotas(request):
     return render(request, 'notas.html', {'notas': notas})
 
 @login_required
+@solo_admin
 def nota_edit(request, nota_id):
     newnota = get_object_or_404(Nota, pk=nota_id)
 
@@ -103,7 +108,8 @@ def nota_edit(request, nota_id):
                 'error': "Error updating nota"
             })
  
-@login_required           
+@login_required    
+@solo_admin       
 def delete_note(request, nota_id):
     delete = get_object_or_404(Nota, pk=nota_id)
     if request.method == 'POST':
