@@ -36,7 +36,7 @@ def signup(request):
 def signin(request):
     return render(request,'signin.html')
 
-
+@login_required
 def create_estudiante(request):
     if request.method == 'GET':
         return render(request, 'crearestudiantes.html',{
@@ -56,6 +56,7 @@ def create_estudiante(request):
                 'error': 'please provide valide data'
         })
 
+@login_required
 def agregar_nota(request):
     if request.method == 'GET':
         return render(request, 'agregarestudiante.html',{
@@ -75,11 +76,12 @@ def agregar_nota(request):
                 'error': 'please provide valide data'
         })    
 
+@login_required
 def vernotas(request):
     notas = Nota.objects.select_related('estudiante').all()
     return render(request, 'notas.html', {'notas': notas})
 
-
+@login_required
 def nota_edit(request, nota_id):
     newnota = get_object_or_404(Nota, pk=nota_id)
 
@@ -100,7 +102,8 @@ def nota_edit(request, nota_id):
                 'form': form,
                 'error': "Error updating nota"
             })
-            
+ 
+@login_required           
 def delete_note(request, nota_id):
     delete = get_object_or_404(Nota, pk=nota_id)
     if request.method == 'POST':
@@ -127,6 +130,7 @@ def signin(request):
             login(request, user)
             return redirect('notas')
 
+@login_required
 def vista_estudiantes(request):
     form = BuscarEstudianteForm(request.GET or None)
     estudiantes = Estudiante.objects.all()  

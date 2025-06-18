@@ -6,13 +6,14 @@ from .models import Profile
 
 
 class EstudianteForm(forms.ModelForm):
-    class Meta: 
+    class Meta:
         model = Estudiante
-        fields = ['nombre','apellido', 'email']
+        fields = ['nombre', 'apellido', 'email',]
         widgets = {
-            'nombre': forms.TextInput(attrs={'class': 'form-control', 'placeholder':'write a title'}),
-            'apellido': forms.TextInput(attrs={'class': 'form-control', 'placeholder':'write a description'}),
-            'email': forms.TextInput(attrs={'class': 'form-control', 'placeholder':'write a email'}),
+            'nombre': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Nombre'}),
+            'apellido': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Apellido'}),
+            'email': forms.EmailInput(attrs={'class': 'form-control', 'placeholder': 'Correo electrónico'}),
+            
         }
         
 class NotaForm(forms.ModelForm):
