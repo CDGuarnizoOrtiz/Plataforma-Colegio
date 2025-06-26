@@ -14,8 +14,9 @@ from .decorators import solo_admin
 
 
 # Create your views here.
+@login_required
 def index(request):
-    return render(request, 'index.html')
+    return render(request, 'dashboard.html')
 
 
 def signup(request):
@@ -35,8 +36,6 @@ def signup(request):
 
 
 
-def signin(request):
-    return render(request,'signin.html')
 
 @login_required
 @solo_admin
@@ -122,7 +121,7 @@ def delete_note(request, nota_id):
 
 def signin(request):
     if request.method == 'GET':
-        return render(request, 'signin.html', {
+        return render(request, 'registration/login.html', {
             'form': AuthenticationForm
         })
     else:
@@ -134,7 +133,7 @@ def signin(request):
             })
         else:
             login(request, user)
-            return redirect('notas')
+            return redirect('dashboard')
 
 @login_required
 def vista_estudiantes(request):

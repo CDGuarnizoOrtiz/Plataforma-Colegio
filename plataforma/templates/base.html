@@ -11,7 +11,7 @@
 <body>
     <nav class="navbar bg-body-tertiary fixed-top">
         <div class="container-fluid">
-          <a class="navbar-brand "  href="{% url 'index' %}">Plataforma Estudiantes </a>
+          <a class="navbar-brand "  href="{% url 'dashboard' %}">Plataforma Estudiantes </a>
           <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
           </button>
@@ -35,7 +35,7 @@
                   </a>
                   <ul class="dropdown-menu">
                     <li><a class="dropdown-item" href="{% url 'notas' %}">Nota de los estudiantes</a></li>
-                    <li><a class="dropdown-item" href="{% url 'index' %}">Inicio</a></li>
+                    <li><a class="dropdown-item" href="{% url 'dashboard' %}">Inicio</a></li>
                     <li>
                       <hr class="dropdown-divider">
                     </li>
