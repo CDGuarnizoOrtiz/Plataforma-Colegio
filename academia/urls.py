@@ -4,8 +4,8 @@ from plataforma import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', views.index, name = 'index'),
-    path('index/', views.index, name = 'index'),
+    path('', views.index, name = 'dashboard'),
+    path('index/', views.index, name = 'dashboard'),
     path('buscar/', views.vista_estudiantes, name = 'buscar'),
     path('create/', views.create_estudiante, name = 'create'),
     path('aggnota/', views.agregar_nota, name = 'aggnota'),
