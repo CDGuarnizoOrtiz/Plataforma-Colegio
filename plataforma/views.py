@@ -127,7 +127,7 @@ def signin(request):
     else:
         user = authenticate(request, username=request.POST['username'], password=request.POST['password'])
         if user is None:
-            return render(request, 'signin.html', {
+            return render(request, 'registration/login.html', {
                 'form': AuthenticationForm,
                 'error': 'username o password is incorrect'
             })
