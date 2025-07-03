@@ -18,6 +18,8 @@ from .decorators import solo_admin
 def index(request):
     return render(request, 'dashboard.html')
 
+def base(request):
+    return render(request, 'base_est.html')
 
 def signup(request):
     if request.method == 'POST':
