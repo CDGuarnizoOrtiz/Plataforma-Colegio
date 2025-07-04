@@ -21,6 +21,9 @@ def index(request):
 def base(request):
     return render(request, 'base_est.html')
 
+def base2(request):
+    return render(request, 'base_teacher.html')
+
 def signup(request):
     if request.method == 'POST':
         form = CustomUserCreationForm(request.POST)
