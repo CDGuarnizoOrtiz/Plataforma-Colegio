@@ -17,10 +17,10 @@ from .decorators import solo_admin
 @login_required
 def index(request):
     return render(request, 'dashboard.html')
-
+@login_required
 def base(request):
     return render(request, 'base_est.html')
-
+@login_required
 def base2(request):
     return render(request, 'base_teacher.html')
 
@@ -88,6 +88,15 @@ def agregar_nota(request):
 def vernotas(request):
     notas = Nota.objects.select_related('estudiante').all()
     return render(request, 'notas.html', {'notas': notas})
+
+
+@login_required
+def lista_estudiantes(request):
+    estudiantes = Estudiante.objects.all().order_by('nombre','apellido')
+    return render(request, 'listaestudiantes.html', {'estudiantes': estudiantes})
+
+
+
 
 @login_required
 @solo_admin
