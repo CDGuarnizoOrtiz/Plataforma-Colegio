@@ -21,6 +21,7 @@
                 <tr class="table-active">
                   <th>Materia</th>
                   <th>Calificación</th>
+                  <th>Acciones</th>
                 </tr>
               </thead>
               <tbody>
@@ -28,7 +29,10 @@
                 <tr>
                   <td>{{ nota.materia }}</td>
                   <td>{{ nota.calificacion }}</td>
-                
+                  <td>
+                    <!-- Botón Editar, pasando el nota.id -->
+                    <a href="{% url 'nota_edit' nota.id %}" class="btn btn-sm btn-primary">Editar</a>
+                  </td>
                 </tr>
                 {% endfor %}
               </tbody>
@@ -42,4 +46,3 @@
   </div>
 </main>
 {% endblock %}
-
