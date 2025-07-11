@@ -21,7 +21,7 @@ class Nota(models.Model):
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    role = models.CharField(max_length=10, choices=[('admin', 'Administrador'), ('student', 'Estudiante')])
+    role = models.CharField(max_length=10, choices=[('teacher', 'Docente'), ('student', 'Estudiante')])
 
     def __str__(self):
         return f"{self.user.username} - {self.role}"
