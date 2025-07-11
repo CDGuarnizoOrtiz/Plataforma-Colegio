@@ -24,6 +24,17 @@ def base(request):
 def base2(request):
     return render(request, 'base_teacher.html')
 
+@login_required
+def perfil_student(request):
+    estudiante = get_object_or_404(Estudiante, id=1)
+    notas = Nota.objects.filter(estudiante=estudiante)
+    return render(request, 'perfil_student.html', {
+        'estudiante': estudiante,
+        'notas': notas
+    })
+
+
+
 def signup(request):
     if request.method == 'POST':
         form = CustomUserCreationForm(request.POST)

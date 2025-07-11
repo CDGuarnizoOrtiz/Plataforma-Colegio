@@ -15,6 +15,7 @@ urlpatterns = [
     path('base_teacher/', views.base2, name = 'base_teacher'),
     path('signup/', views.signup, name='signup'),
     path('signin/', views.signin, name='signin'),
+    path('perfil_student/', views.perfil_student, name='perfil_student'),
     path('nota_edit/<int:nota_id>/', views.nota_edit, name='nota_edit'),
     path('tasks/<int:nota_id>/delete', views.delete_note, name='delete_note'),
     path('accounts/',include('django.contrib.auth.urls')),

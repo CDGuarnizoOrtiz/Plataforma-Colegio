@@ -1,0 +1,64 @@
+{% extends 'base_est.html' %}
+
+{% load static %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="card shadow rounded">
+        <div class="card-body">
+            <div class="row">
+                <!-- FOTO DEL ALUMNO -->
+                <div class="col-md-4 text-center">
+                    <img src="{% static 'img/foto_default.jpg' %}" class="img-fluid rounded-circle mb-3" style="width: 200px; height: 200px; object-fit: cover;" alt="Foto del estudiante">
+                    <h5 class="mt-2">Nombre del Alumno</h5>
+                </div>
+
+                <!-- DATOS DEL ALUMNO -->
+                <div class="col-md-8">
+                    <h4 class="mb-4">Información del Estudiante</h4>
+                    
+                    <div class="row mb-2">
+                        <div class="col-sm-4 font-weight-bold">Nombre:</div>
+                        <div class="col-sm-8">{{estudiante.nombre}}</div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-sm-4 font-weight-bold">Correo:</div>
+                        <div class="col-sm-8">{{estudiante.email}}</div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-sm-4 font-weight-bold">Programa:</div>
+                        <div class="col-sm-8">Ingeniería Electrónica</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TABLA DE MATERIAS -->
+            <div class="mt-5">
+                <h4 class="mb-3">Materias y Notas</h4>
+                <table class="table table-striped">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th>Materia</th>
+                            <th>Nota</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for nota in notas %}
+                        <tr>
+                            <td>{{ nota.materia }}</td>
+                            <td>{{ nota.calificacion }}</td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="2">No hay notas registradas.</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}
