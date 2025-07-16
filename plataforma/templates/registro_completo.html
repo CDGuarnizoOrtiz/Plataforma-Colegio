@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<main class="container mt-3">
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <form method="POST" enctype="multipart/form-data" class="card shadow"> 
+        <div class="card-body p-4">
+          <h2 class="mb-4 text-center">Registro completo</h2>
+          {% csrf_token %}
+          {{ form.non_field_errors }}
+
+          <!-- Usuario -->
+          <div class="mb-3">
+            {{ form.username.label_tag }} {{ form.username }} {{ form.username.errors }}
+          </div>
+
+          <!-- Contraseñas -->
+          <div class="mb-3">
+            {{ form.password1.label_tag }} {{ form.password1 }} {{ form.password1.errors }}
+          </div>
+          <div class="mb-3">
+            {{ form.password2.label_tag }} {{ form.password2 }} {{ form.password2.errors }}
+          </div>
+
+          <!-- Rol -->
+          <div class="mb-3">
+            {{ form.role.label_tag }} {{ form.role }} {{ form.role.errors }}
+          </div>
+
+          <hr>
+
+          <!-- Datos del estudiante -->
+          <div class="mb-3">
+            {{ form.nombre.label_tag }} {{ form.nombre }} {{ form.nombre.errors }}
+          </div>
+          <div class="mb-3">
+            {{ form.apellido.label_tag }} {{ form.apellido }} {{ form.apellido.errors }}
+          </div>
+          <div class="mb-3">
+            {{ form.email.label_tag }} {{ form.email }} {{ form.email.errors }}
+          </div>
+
+          <!-- Foto -->
+          <div class="mb-3">
+            {{ form.foto.label_tag }} {{ form.foto }} {{ form.foto.errors }}
+          </div>
+
+          <div class="d-grid gap-2 mt-4">
+            <button type="submit" class="btn btn-dark">Registrarse</button>
+            <a href="{% url 'signin' %}" class="btn btn-outline-secondary">Iniciar sesión</a>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</main>
+{% endblock %}

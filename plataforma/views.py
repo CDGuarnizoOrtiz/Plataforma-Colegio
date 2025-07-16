@@ -4,7 +4,7 @@ from .forms import CustomUserCreationForm
 from django.contrib.auth.models import User
 from django.contrib.auth import login, logout, authenticate
 from django.db import IntegrityError
-from .forms import EstudianteForm, NotaForm,BuscarEstudianteForm, NotaeditForm
+from .forms import EstudianteForm, NotaForm,BuscarEstudianteForm, NotaeditForm,RegistroCompletoForm
 from .models import Estudiante,Nota
 from django.utils import timezone
 from django.contrib.auth.decorators import login_required
@@ -26,7 +26,7 @@ def base2(request):
 
 @login_required
 def perfil_student(request):
-    estudiante = get_object_or_404(Estudiante, id = 1)
+    estudiante = get_object_or_404(Estudiante, user = request.user)
     notas = Nota.objects.filter(estudiante=estudiante)
     return render(request, 'perfil_student.html', {
         'estudiante': estudiante,
@@ -37,42 +37,59 @@ def perfil_student(request):
 
 def signup(request):
     if request.method == 'POST':
-        form = CustomUserCreationForm(request.POST)
+        form = RegistroCompletoForm(request.POST, request.FILES)  
         if form.is_valid():
-            user = form.save()  
+            # Crear usuario
+            user = User.objects.create_user(
+                username=form.cleaned_data['username'],
+                password=form.cleaned_data['password1']
+            )
+            # Crear perfil
+            Profile.objects.create(
+                user=user,
+                role=form.cleaned_data['role']
+            )
+            # Crear estudiante (solo si el rol es estudiante)
+            if form.cleaned_data['role'] == 'student':
+                Estudiante.objects.create(
+                    user=user,
+                    nombre=form.cleaned_data['nombre'],
+                    apellido=form.cleaned_data['apellido'],
+                    email=form.cleaned_data['email'],
+                    foto=form.cleaned_data.get('foto')  
+                )
             login(request, user)
             messages.success(request, "Usuario registrado correctamente.")
             return redirect('signin')
         else:
-            messages.error(request, "Hubo un error al crear la cuenta.")
+            messages.error(request, "Error en el formulario.")
     else:
-        form = CustomUserCreationForm()
+        form = RegistroCompletoForm()
 
-    return render(request, 'signup.html', {'form': form})
-
-
+    return render(request, 'registro_completo.html', {'form': form})
 
 
-@login_required
+
+
 
 def create_estudiante(request):
     if request.method == 'GET':
-        return render(request, 'crearestudiantes.html',{
+        return render(request, 'crearestudiantes.html', {
             'form': EstudianteForm,
-            #'form': notaform,  
         })
     else:
         try:
             form = EstudianteForm(request.POST)
-            #form2 = notaform(request.POST)
             new_student = form.save(commit=False)
+            new_student.user = request.user  
             new_student.save()
             return redirect('create')
         except ValueError:
             return render(request, 'crearestudiantes.html', {
                 'form': EstudianteForm,
-                'error': 'please provide valide data'
-        })
+                'error': 'Por favor proporciona datos válidos.'
+            })
+
 
 @login_required
 

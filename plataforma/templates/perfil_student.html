@@ -1,7 +1,5 @@
 {% extends 'base_est.html' %}
-
 {% load static %}
-
 {% block content %}
 <div class="container mt-5">
     <div class="card shadow rounded">
@@ -9,21 +7,27 @@
             <div class="row">
                 <!-- FOTO DEL ALUMNO -->
                 <div class="col-md-4 text-center">
-                    <img src="{% static 'img/foto_default.jpg' %}" class="img-fluid rounded-circle mb-3" style="width: 200px; height: 200px; object-fit: cover;" alt="Foto del estudiante">
-                    <h5 class="mt-2">Nombre del Alumno</h5>
+                    {% if estudiante.foto %}
+                        <img src="{{ estudiante.foto.url }}" class="img-fluid rounded-circle mb-3"
+                            style="width: 200px; height: 200px; object-fit: cover;" alt="Foto del estudiante">
+                    {% else %}
+                        <img src="{% static 'img/foto_default.jpg' %}" class="img-fluid rounded-circle mb-3"
+                            style="width: 200px; height: 200px; object-fit: cover;" alt="Foto por defecto">
+                    {% endif %}
+                    <h5 class="mt-2">{{ estudiante.nombre }} {{ estudiante.apellido }}</h5>
                 </div>
 
-                <!-- DATOS DEL ALUMNO -->
+                <!-- INFORMACIÓN -->
                 <div class="col-md-8">
                     <h4 class="mb-4">Información del Estudiante</h4>
-                    
+
                     <div class="row mb-2">
                         <div class="col-sm-4 font-weight-bold">Nombre:</div>
-                        <div class="col-sm-8">{{estudiante.nombre}}</div>
+                        <div class="col-sm-8">{{ estudiante.nombre }}</div>
                     </div>
                     <div class="row mb-2">
                         <div class="col-sm-4 font-weight-bold">Correo:</div>
-                        <div class="col-sm-8">{{estudiante.email}}</div>
+                        <div class="col-sm-8">{{ estudiante.email }}</div>
                     </div>
                     <div class="row mb-2">
                         <div class="col-sm-4 font-weight-bold">Programa:</div>
@@ -59,6 +63,4 @@
         </div>
     </div>
 </div>
-
-
 {% endblock %}
