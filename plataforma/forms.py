@@ -38,7 +38,7 @@ class NotaeditForm(forms.ModelForm):
 
 class CustomUserCreationForm(UserCreationForm):
     ROLE_CHOICES = (
-        ('admin', 'Administrador'),
+        ('teacher', 'Docente'),
         ('student', 'Estudiante'),
     )
 

@@ -26,7 +26,7 @@ def base2(request):
 
 @login_required
 def perfil_student(request):
-    estudiante = get_object_or_404(Estudiante, id=1)
+    estudiante = get_object_or_404(Estudiante, id = 1)
     notas = Nota.objects.filter(estudiante=estudiante)
     return render(request, 'perfil_student.html', {
         'estudiante': estudiante,
@@ -54,7 +54,7 @@ def signup(request):
 
 
 @login_required
-@solo_admin
+
 def create_estudiante(request):
     if request.method == 'GET':
         return render(request, 'crearestudiantes.html',{
@@ -75,7 +75,7 @@ def create_estudiante(request):
         })
 
 @login_required
-@solo_admin
+
 def agregar_nota(request):
     if request.method == 'GET':
         return render(request, 'agregarestudiante.html',{
@@ -110,7 +110,7 @@ def lista_estudiantes(request):
 
 
 @login_required
-@solo_admin
+
 def nota_edit(request, nota_id):
     newnota = get_object_or_404(Nota, pk=nota_id)
 
@@ -133,7 +133,7 @@ def nota_edit(request, nota_id):
             })
  
 @login_required    
-@solo_admin       
+      
 def delete_note(request, nota_id):
     delete = get_object_or_404(Nota, pk=nota_id)
     if request.method == 'POST':
@@ -158,7 +158,16 @@ def signin(request):
             })
         else:
             login(request, user)
-            return redirect('dashboard')
+            try:
+                role = user.profile.role
+            except Profile.DoesNotExist:
+                return redirect('signin')
+            if role == 'teacher':
+                return redirect('base_teacher')
+            if role == 'student':
+                return redirect('base')
+            else:
+                return render(request,'signin')
 
 @login_required
 def vista_estudiantes(request):
