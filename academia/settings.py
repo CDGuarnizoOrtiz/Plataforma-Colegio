@@ -11,7 +11,9 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
 from pathlib import Path, os
-
+import cloudinary
+import cloudinary.uploader
+import cloudinary.api
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -39,6 +41,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'plataforma',
+    'cloudinary',
+    'cloudinary_storage',
 ]
 
 MIDDLEWARE = [
@@ -137,3 +141,18 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = '/home/daniel/media_academia/'
 LOGOUT_REDIRECT_URL = '/'
 
+import cloudinary
+
+cloudinary.config( 
+  cloud_name = 'darbzcvuu', 
+  api_key = '639414686212768', 
+  api_secret = '4rFbrrBQAMswNskuxnEabTvfpFk' 
+)
+
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+
+CLOUDINARY_STORAGE = {
+    'CLOUD_NAME': 'darbzcvuu',
+    'API_KEY': '639414686212768',
+    'API_SECRET': '4rFbrrBQAMswNskuxnEabTvfpFk',
+}
