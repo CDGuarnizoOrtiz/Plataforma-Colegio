@@ -21,6 +21,7 @@ urlpatterns = [
     path('nota_edit/<int:nota_id>/', views.nota_edit, name='nota_edit'),
     path('tasks/<int:nota_id>/delete', views.delete_note, name='delete_note'),
     path('accounts/',include('django.contrib.auth.urls')),
+    path("boletin/<int:estudiante_id>/", views.generar_boletin, name="generar_boletin"),
     
     
 ]  
