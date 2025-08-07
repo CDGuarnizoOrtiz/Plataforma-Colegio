@@ -5,13 +5,15 @@ from django.contrib.auth.models import User
 from django.contrib.auth import login, logout, authenticate
 from django.db import IntegrityError
 from .forms import EstudianteForm, NotaForm,BuscarEstudianteForm, NotaeditForm,RegistroCompletoForm
-from .models import Estudiante,Nota
+from .models import Estudiante,Nota,Profile
 from django.utils import timezone
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from .models import Profile
 from .decorators import solo_admin
-
+from django.http import HttpResponse
+from django.template.loader import get_template
+from xhtml2pdf import pisa
+from .models import Estudiante, Nota
 
 # Create your views here.
 @login_required
@@ -208,3 +210,18 @@ def vista_estudiantes(request):
         'form': form,
         'estudiantes_data': estudiantes_data
     })
+
+def generar_boletin(request, estudiante_id):
+    estudiante = Estudiante.objects.get(id=estudiante_id)
+    notas = estudiante.notas.all()
+
+    template = get_template("boletin_pdf.html")
+    html = template.render({"estudiante": estudiante, "notas": notas})
+
+    response = HttpResponse(content_type='application/pdf')
+    response['Content-Disposition'] = f'attachment; filename="boletin_{estudiante.nombre}.pdf"'
+    pisa_status = pisa.CreatePDF(html, dest=response)
+
+    if pisa_status.err:
+        return HttpResponse("Error al generar el PDF")
+    return response

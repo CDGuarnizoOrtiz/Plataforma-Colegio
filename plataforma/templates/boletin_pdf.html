@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        body { font-family: Arial, sans-serif; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th, td { border: 1px solid black; padding: 8px; text-align: center; }
+        h2 { text-align: center; }
+    </style>
+</head>
+<body>
+    <h2>Boletín de Notas</h2>
+    <p><strong>Estudiante:</strong> {{ estudiante.nombre }}</p>
+
+    <table>
+        <tr>
+            <th>Materia</th>
+            <th>Calificación</th>
+        </tr>
+        {% for nota in notas %}
+        <tr>
+            <td>{{ nota.materia }}</td>
+            <td>{{ nota.calificacion }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>
