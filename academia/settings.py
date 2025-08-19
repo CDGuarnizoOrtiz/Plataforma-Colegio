@@ -10,26 +10,36 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
-from pathlib import Path, os
+import os
+from pathlib import Path
 import cloudinary
 import cloudinary.uploader
 import cloudinary.api
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+# DEBUG: Leer variable de entorno 'DEBUG' (1 o 0)
+DEBUG = os.getenv('DEBUG', '1') == '1'
 
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
+# SECRET_KEY: Obligatoria en producción
+SECRET_KEY = os.getenv('SECRET_KEY')
+if not SECRET_KEY:
+    if DEBUG:
+        SECRET_KEY = 'unsafe-secret-for-dev'  # solo desarrollo
+    else:
+        raise Exception('La variable de entorno SECRET_KEY es obligatoria en producción')
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-g!+x*4l1#u7q#9q$z-w#gtih^kbuo#19k5n16m!fcc-4p$0td8'
+# Configuración de cookies seguras según entorno
+SESSION_COOKIE_SECURE = not DEBUG
+CSRF_COOKIE_SECURE = not DEBUG
 
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-
-ALLOWED_HOSTS = []
-
-
+# ALLOWED_HOSTS según entorno
+if DEBUG:
+    ALLOWED_HOSTS = ['localhost', '127.0.0.1']
+else:
+    # Cambia por tus dominios reales de producción
+    ALLOWED_HOSTS = ['tudominio.com', 'www.tudominio.com']
 
 # Application definition
 
@@ -47,6 +57,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -75,78 +86,50 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'academia.wsgi.application'
 
-
 # Database
-# https://docs.djangoproject.com/en/5.2/ref/settings/#databases
-
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'colegio',
-        'USER': 'postgres',
-        'PASSWORD' : 'root',
-        'HOST' : 'localhost',
-        'PORT' : '5432',
+        'NAME': os.getenv('POSTGRES_DB', 'colegio'),
+        'USER': os.getenv('POSTGRES_USER', 'postgres'),
+        'PASSWORD': os.getenv('POSTGRES_PASSWORD', 'root'),
+        'HOST': os.getenv('DATABASE_HOST', 'db'),
+        'PORT': os.getenv('DATABASE_PORT', '5432'),
     }
 }
 
-
-# Password validation
-# https://docs.djangoproject.com/en/5.2/ref/settings/#auth-password-validators
-
+# Password validation (opcional, puedes activar si quieres)
 AUTH_PASSWORD_VALIDATORS = []
 
-#AUTH_PASSWORD_VALIDATORS = [
-#   {
-#        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
-#    },
-#    {
-#       'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
-#    },
-#    {
-#        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
-#    },
-#    {
-#        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
-#    },
-#]
-
-
 # Internationalization
-# https://docs.djangoproject.com/en/5.2/topics/i18n/
-
 LANGUAGE_CODE = 'en-us'
-
 TIME_ZONE = 'UTC'
-
 USE_I18N = True
-
 USE_TZ = True
 
-
 # Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/5.2/howto/static-files/
-
 STATIC_URL = '/static/'
-
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 STATICFILES_DIRS = [
     BASE_DIR / 'plataforma' / 'static',
 ]
 
-# Default primary key field type
-# https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
-
-DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+# Media files
 MEDIA_URL = '/media/'
 MEDIA_ROOT = '/home/daniel/media_academia/'
+
+# Default primary key field type
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# Logout redirect
 LOGOUT_REDIRECT_URL = '/'
 
-import cloudinary
-
-cloudinary.config( 
-  cloud_name = 'darbzcvuu', 
-  api_key = '639414686212768', 
-  api_secret = '4rFbrrBQAMswNskuxnEabTvfpFk' 
+# Cloudinary config
+cloudinary.config(
+    cloud_name='darbzcvuu',
+    api_key='639414686212768',
+    api_secret='4rFbrrBQAMswNskuxnEabTvfpFk'
 )
 
 DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
